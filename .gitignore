@@ -1,0 +1,56 @@
+## Core LaTeX Auxiliary Files
+*.aux
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdfsync
+*.snm
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.vrb
+*.xdv
+
+## Bibliography Auxiliary Files (BibTeX / Biber)
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+
+## TeXstudio & Editor specific files
+*.bak
+*.unsub
+*.txssct
+.directory
+
+## OS-specific files
+.DS_Store
+Thumbs.db
+
+## --- PDF management ---
+## By default, we ignore PDFs generated inside the practice folders
+## to prevent compiled outputs from cluttering changes.
+PRACTICA_*/*.pdf
+
+## Do NOT ignore PDFs that have "PRACTICA_EN_LIBRO" in their name
+!*PRACTICA_EN_LIBRO*.pdf
+!**/PRACTICA_EN_LIBRO*.pdf
+
+## If you want to commit specific PDFs, you can force add them with:
+## git add -f PRACTICA_X/main.pdf
+## Or comment out the line above if you wish to track all PDFs.

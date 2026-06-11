@@ -1,0 +1,58 @@
+name: Compile LaTeX and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers the workflow when pushing tags like v1.0, v2.0, etc.
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create output directory
+        run: mkdir -p output_pdfs
+
+      - name: Compile LaTeX documents
+        run: |
+          # Find all main.tex files recursively, excluding git directories
+          find . -name "main.tex" -not -path "*/.git/*" | while read -r tex_file; do
+            dir=$(dirname "$tex_file")
+            prac_name=$(basename "$dir")
+            echo "=========================================="
+            echo "Compiling $prac_name ($tex_file)"
+            echo "=========================================="
+            
+            # Move to the practice directory to compile relative to its images
+            cd "$dir"
+            pdflatex -interaction=nonstopmode main.tex
+            pdflatex -interaction=nonstopmode main.tex # Double compile to build reference tables correctly
+            
+            # If compile succeeded, rename and copy to output directory
+            if [ -f main.pdf ]; then
+              mv main.pdf "../../output_pdfs/${prac_name}.pdf"
+              echo "Successfully compiled and saved to output_pdfs/${prac_name}.pdf"
+            else
+              echo "Error: PDF was not generated for $prac_name"
+              exit 1
+            fi
+            
+            # Return to repository root
+            cd ../..
+          done
+
+      - name: Create GitHub Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: output_pdfs/*.pdf
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
