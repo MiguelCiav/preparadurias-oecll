@@ -250,8 +250,8 @@ Semestre 01-2026
         else return k + g(x - 1);
     }
     \end{verbatim}
-    
     Ben traduce ambas funciones a lenguaje ensamblador de RISC-V de la siguiente forma. También escribe una rutina de prueba llamada \texttt{test} que realiza la llamada inicial a $f(5, 3)$:
+   	\pagebreak
     \begin{verbatim}
     # f: a0 = a, a1 = b, s4 = j;
     # g: a0 = x, s4 = k
@@ -292,6 +292,7 @@ Semestre 01-2026
     0x8080       jr   ra              # return
     \end{verbatim}
     
+    \pagebreak
     Supón que Ben comete un error y reemplaza la instrucción en la dirección \texttt{0x8014} (\texttt{sw a0, 0xC(sp)}) por un \texttt{nop}. Explica detalladamente qué le ocurrirá al programa y selecciona una de las siguientes opciones justificando tu respuesta:
     \begin{enumerate}[label=\arabic*)]
         \item Entrará en un bucle infinito pero no fallará catastróficamente.
@@ -301,7 +302,6 @@ Semestre 01-2026
     \end{enumerate}
 
     \vspace{0.5cm}
-    \pagebreak
 
     %%%%% PREGUNTA 11 (Exercise 6.24) %%%%%
     \item Considera el siguiente fragmento de código en ensamblador de RISC-V:
