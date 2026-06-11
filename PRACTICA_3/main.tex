@@ -1,0 +1,155 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{caption}
+\graphicspath{{img/}}
+
+% Configuración de márgenes
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+\begin{document}
+
+%%%%%% ENCABEZADO %%%%%%%
+
+\noindent \textbf{Universidad Central de Venezuela}\\
+\textbf{Facultad de Ciencias}\\
+\textbf{Escuela de Computación}\\
+\textbf{Organización y Estructura del Computador II}\\
+Semestre 01-2026
+
+\vspace{0.3cm}
+\begin{center}
+{\textbf{Práctica 3: Programación en Ensamblador de RISC-V}}
+\end{center}
+\vspace{0.5cm}
+
+%%%%%% CONTENIDO %%%%%%%
+
+\begin{enumerate}
+
+    %%%%% PREGUNTA 1 %%%%%
+    \item Indica el resultado, contenido final de los registros y posiciones de memoria luego de ejecutar las siguientes instrucciones:
+    \vspace{0.3cm}
+    
+    \begin{tabular}{ll@{\hspace{2.5cm}}ll}
+        a) & \texttt{add s1, s1, s2} & g) & \texttt{mv s2, s4} \\
+        b) & \texttt{addi s3, s2, 2} & h) & \texttt{lw s1, 0(s4)} \\
+        c) & \texttt{sub s4, s3, x0} & i) & \texttt{lw s2, 4(s5)} \\
+        d) & \texttt{andi s2, s3, -1453} & j) & \texttt{and s5, s1, s3} \\
+        e) & \texttt{sll s4, s2, s5} & k) & \texttt{sw s3, 0(s5)} \\
+        f) & \texttt{or s1, s1, s2} & l) & \texttt{sw s4, 4(s4)}
+    \end{tabular}
+    
+    \vspace{0.5cm}
+    Los registros y memoria tienen los siguientes contenidos en el momento inicial:
+    \vspace{0.3cm}
+
+    \begin{table}[H]
+        \centering
+        \begin{minipage}[t]{0.45\textwidth}
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                \multicolumn{2}{|c|}{\textbf{Registros}} \\
+                \hline
+                \textbf{s1} & \texttt{0x00000016} \\
+                \hline
+                \textbf{s2} & \texttt{0x00000054} \\
+                \hline
+                \textbf{s3} & \texttt{0xffffffff} \\
+                \hline
+                \textbf{s4} & \texttt{0x00000000} \\
+                \hline
+                \textbf{s5} & \texttt{0x00000004} \\
+                \hline
+            \end{tabular}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                \multicolumn{2}{|c|}{\textbf{Memoria}} \\
+                \hline
+                \textbf{0x00} & \texttt{0x03393826} \\
+                \hline
+                \textbf{0x04} & \texttt{0xea0063af} \\
+                \hline
+                \textbf{0x08} & \texttt{0x17fa8912} \\
+                \hline
+                \textbf{0x0c} & \texttt{0xbc983304} \\
+                \hline
+                \textbf{0x10} & \texttt{0x534b4aaa} \\
+                \hline
+                \textbf{0x14} & \texttt{0x534b4aaa} \\
+                \hline
+            \end{tabular}
+        \end{minipage}
+    \end{table}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 2 %%%%%
+    \item Escribe un programa en lenguaje ensamblador que implemente el siguiente bloque \texttt{IF-THEN-ELSE}. Usa la sección \texttt{.data} para asignar algún valor inicial a las variables.
+    \begin{verbatim}
+    if (x >= y) {
+        x = x + 2; 
+        y = y + 2;
+    } else {
+        x = x - 2;
+        y = y - 2;
+    }
+    \end{verbatim}
+
+    \pagebreak
+
+    %%%%% PREGUNTA 3 %%%%%
+    \item Escribe un programa en lenguaje ensamblador que implemente el siguiente código. Usa la sección \texttt{.bss} para reservar espacio en memoria para las variables.
+    \begin{verbatim}
+    n = 5;
+    fant = 1;
+    f = 1;
+    i = 2;
+    while (i <= n) {
+        faux = f;
+        f = f + fant; 
+        fant = faux; 
+        i = i + 1;
+    }
+    \end{verbatim}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 4 %%%%%
+    \item Cada una de las siguientes instrucciones del repertorio de ensamblador de RISC-V, ¿con qué secuencia de 32 bits se corresponde en código máquina?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{lw t0, 0(t2)}
+        \item \texttt{bge t1, t0, 0x2C}
+        \item \texttt{sw t1, 0(t4)}
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 5 %%%%%
+    \item Cada una de las siguientes secuencias de 32 bits, ¿con qué instrucciones del repertorio de ensamblador de RISC-V se corresponden?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{0x03528B33}
+        \item \texttt{0x00190913}
+        \item \texttt{0x0000006F}
+    \end{enumerate}
+
+\end{enumerate}
+
+\end{document}
