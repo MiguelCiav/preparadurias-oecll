@@ -348,9 +348,32 @@ Semestre 01-2026
     }
     \end{verbatim}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{verbatim}
+    # Registros asignados:
+    # t1 = dirección base de array1
+    # t2 = dirección base de array2
+    # t3 = i (índice)
+
+    .globl main
+    main:
+        addi t3, zero, 0    # i = 0
+        addi t4, zero, 100  # Límite = 100
+        
+    for:   
+        bge t3, t4, done    # Si i >= 100, salir del bucle
+        slli t5, t3, 2      # t5 = i * 4 (offset en bytes para enteros de 32 bits)
+        add t6, t2, t5      # t6 = dirección de array2[i]
+        lw t0, 0(t6)        # t0 = valor de array2[i] (Nota: usamos t0 en lugar de s3)
+        add t6, t1, t5      # t6 = dirección de array1[i]
+        sw t0, 0(t6)        # array1[i] = array2[i]
+        addi t3, t3, 1      # i = i + 1
+        j for
+        
+    done:
+        j .
+    \end{verbatim}
 
     \vspace{0.5cm}
 
