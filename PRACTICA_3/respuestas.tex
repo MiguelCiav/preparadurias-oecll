@@ -300,9 +300,38 @@ Semestre 01-2026
         \item \texttt{0x0000006F}
     \end{enumerate}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{0x03528B33} $\rightarrow$ \texttt{0000001\_10101\_00101\_000\_10110\_0110011}
+        \begin{itemize}[noitemsep]
+            \item \texttt{opcode = 0110011} (Formato Tipo R)
+            \item \texttt{rd = 10110} (x22 $\rightarrow$ \texttt{s6})
+            \item \texttt{funct3 = 000}
+            \item \texttt{rs1 = 00101} (x5 $\rightarrow$ \texttt{t0})
+            \item \texttt{rs2 = 10101} (x21 $\rightarrow$ \texttt{s5})
+            \item \texttt{funct7 = 0000001} (Corresponde a la extensión M de multiplicación)
+        \end{itemize}
+        Instrucción decodificada: \textbf{\texttt{mul s6, t0, s5}}
+        
+        \item \texttt{0x00190913} $\rightarrow$ \texttt{000000000001\_10010\_000\_10010\_0010011}
+        \begin{itemize}[noitemsep]
+            \item \texttt{opcode = 0010011} (Formato Tipo I)
+            \item \texttt{rd = 10010} (x18 $\rightarrow$ \texttt{s2})
+            \item \texttt{funct3 = 000} (\texttt{addi})
+            \item \texttt{rs1 = 10010} (x18 $\rightarrow$ \texttt{s2})
+            \item \texttt{imm[11:0] = 000000000001} (Inmediato = 1)
+        \end{itemize}
+        Instrucción decodificada: \textbf{\texttt{addi s2, s2, 1}}
+        
+        \item \texttt{0x0000006F} $\rightarrow$ \texttt{00000000000000000000\_00000\_1101111}
+        \begin{itemize}[noitemsep]
+            \item \texttt{opcode = 1101111} (Formato Tipo J - \texttt{jal})
+            \item \texttt{rd = 00000} (x0 $\rightarrow$ \texttt{zero})
+            \item \texttt{imm[20|10:1|11|19:12] = 0} (Inmediato / Offset = 0)
+        \end{itemize}
+        Instrucción decodificada: \textbf{\texttt{jal zero, 0}} (equivalente a la pseudoinstrucción de salto incondicional infinito: \textbf{\texttt{j .}})
+    \end{enumerate}
 
     \vspace{0.5cm}
     \pagebreak
