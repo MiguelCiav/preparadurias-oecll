@@ -258,7 +258,22 @@ Semestre 01-2026
         Concatenación (MSB a LSB): \texttt{000000000000\_00111\_010\_00101\_0000011} \\
         Equivalente hexadecimal: \textbf{\texttt{0x00074503}}
         
-        \item \texttt{bge t1, t0, 0x2C} $\rightarrow$ \textcolor{red}{\textbf{[Pendiente por resolver]}}
+        \item \texttt{bge t1, t0, 0x2C} $\rightarrow$ Formato Tipo B (Branch). \\
+        Inmediato de 13 bits para $offset = 44$ (\texttt{0x2C}): \texttt{0\_00000010110\_0} (el bit 0 no se codifica).
+        \begin{itemize}[noitemsep]
+            \item \texttt{imm[12]} = \texttt{0}
+            \item \texttt{imm[10:5]} = \texttt{000001}
+            \item \texttt{rs2 = t0 (x5)} $\rightarrow$ \texttt{00101}
+            \item \texttt{rs1 = t1 (x6)} $\rightarrow$ \texttt{00110}
+            \item \texttt{funct3 = bge} $\rightarrow$ \texttt{101}
+            \item \texttt{imm[4:1]} = \texttt{0110}
+            \item \texttt{imm[11]} = \texttt{0}
+            \item \texttt{opcode = branch} $\rightarrow$ \texttt{1100011}
+        \end{itemize}
+        Concatenación (MSB a LSB): \\
+        \texttt{imm[12|10:5]\_rs2\_rs1\_funct3\_imm[4:1|11]\_opcode} \\
+        \texttt{0000001\_00101\_00110\_101\_01100\_1100011} \\
+        Equivalente hexadecimal: \textbf{\texttt{0x02535663}}
         
         \item \texttt{sw t1, 0(t4)} $\rightarrow$ \textcolor{red}{\textbf{[Pendiente por resolver]}}
     \end{enumerate}
