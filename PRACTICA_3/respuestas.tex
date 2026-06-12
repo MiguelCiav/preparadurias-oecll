@@ -683,9 +683,44 @@ Semestre 01-2026
         \item Extrae el valor inmediato para cada instrucción que lo posea y exprésalo tanto en formato decimal como en binario de 12 bits (con extensión de signo si aplica).
     \end{enumerate}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{enumerate}[label=\alph*)]
+        \item Las instrucciones que utilizan un campo inmediato en su codificación a código máquina son:
+        \begin{itemize}[noitemsep]
+            \item \texttt{addi s3, s4, 28} (inmediato de 12 bits).
+            \item \texttt{srli s3, s1, 14} (inmediato que define la cantidad de desplazamiento).
+            \item \texttt{sw s9, 16(t4)} (inmediato de 12 bits para el offset de memoria).
+        \end{itemize}
+        La instrucción \texttt{sll t1, t2, t3} opera únicamente sobre registros, por lo que no utiliza campo inmediato.
+        
+        \item Formato de instrucción:
+        \begin{itemize}[noitemsep]
+            \item \texttt{addi s3, s4, 28} $\rightarrow$ \textbf{Tipo I} (Immediate).
+            \item \texttt{sll t1, t2, t3} $\rightarrow$ \textbf{Tipo R} (Register).
+            \item \texttt{srli s3, s1, 14} $\rightarrow$ \textbf{Tipo I} (Immediate, con la cantidad de corrimiento en los 5 bits inferiores del inmediato).
+            \item \texttt{sw s9, 16(t4)} $\rightarrow$ \textbf{Tipo S} (Store).
+        \end{itemize}
+        
+        \item Extracción de valores inmediatos:
+        \begin{itemize}
+            \item \textbf{Para \texttt{addi s3, s4, 28}:}
+            \begin{itemize}[noitemsep]
+                \item Decimal: \texttt{28}
+                \item Binario (12 bits): \texttt{000000011100}
+            \end{itemize}
+            \item \textbf{Para \texttt{srli s3, s1, 14}:}
+            \begin{itemize}[noitemsep]
+                \item Decimal: \texttt{14}
+                \item Binario (12 bits): En el formato Tipo I para desplazamientos inmediatos, los 7 bits más significativos corresponden al opcode extendido (\texttt{imm[11:5] = 0000000}) y los 5 bits menos significativos definen el corrimiento (\texttt{imm[4:0] = 01110}). Concatenados como inmediato: \texttt{000000001110}.
+            \end{itemize}
+            \item \textbf{Para \texttt{sw s9, 16(t4)}:}
+            \begin{itemize}[noitemsep]
+                \item Decimal: \texttt{16}
+                \item Binario (12 bits): \texttt{000000010000}. Físicamente en la instrucción se divide en \texttt{imm[11:5] = 0000000} y \texttt{imm[4:0] = 10000}.
+            \end{itemize}
+        \end{itemize}
+    \end{enumerate}
 
     \vspace{0.5cm}
 
