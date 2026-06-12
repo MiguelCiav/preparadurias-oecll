@@ -734,8 +734,58 @@ Semestre 01-2026
     lb   s2, 1(s7)
     \end{verbatim}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
+    \color{solcolor}
+    \textbf{Solución:}
+    
+    El programa permite determinar la \textit{Endianness} de la máquina analizando el orden en el que se almacenan los bytes individuales de una palabra de 32 bits en la memoria RAM.
+    
+    A continuación, se detalla el comportamiento paso a paso del código:
+    \begin{enumerate}[label=\arabic*)]
+        \item \textbf{\texttt{addi s7, zero, 100}:} Carga el valor base \texttt{100} en el registro \texttt{s7} (representa la dirección de memoria base, \texttt{0x64} en hexadecimal).
+        \item \textbf{\texttt{lui s3, 0xABCD8}:} Carga la constante de 20 bits en la parte alta de \texttt{s3}, dejando el registro con el valor \texttt{0xABCD8000}.
+        \item \textbf{\texttt{addi s3, s3, 0x765}:} Suma el inmediato de 12 bits \texttt{0x765} a \texttt{s3}, resultando en que \texttt{s3 = 0xABCD8765}.
+        
+        Desglosando el valor del registro \texttt{s3} en sus 4 bytes constitutivos (del más significativo al menos significativo) se tiene:
+        \begin{itemize}[noitemsep]
+            \item Byte 3 (MSB): \texttt{0xAB}
+            \item Byte 2: \texttt{0xCD}
+            \item Byte 1: \texttt{0x87}
+            \item Byte 0 (LSB): \texttt{0x65}
+        \end{itemize}
+        
+        \item \textbf{\texttt{sw s3, 0(s7)}:} Guarda la palabra completa de \texttt{s3} en la dirección de memoria apuntada por \texttt{s7} (\texttt{100}), ocupando los bytes en las direcciones \texttt{100}, \texttt{101}, \texttt{102} y \texttt{103}. El orden de los bytes depende de la arquitectura del procesador:
+        
+        \begin{table}[H]
+            \centering
+            \small
+            \begin{tabular}{|c|c|c|}
+                \hline
+                \textbf{Dirección de Memoria} & \textbf{Caso Little-Endian} & \textbf{Caso Big-Endian} \\
+                \hline
+                \texttt{100} & \texttt{0x65} (LSB) & \texttt{0xAB} (MSB) \\
+                \hline
+                \texttt{101} & \textbf{\texttt{0x87}} & \textbf{\texttt{0xCD}} \\
+                \hline
+                \texttt{102} & \texttt{0xCD} & \texttt{0x87} \\
+                \hline
+                \texttt{103} & \texttt{0xAB} (MSB) & \texttt{0x65} (LSB) \\
+                \hline
+            \end{tabular}
+        \end{table}
+
+        \item \textbf{\texttt{lb s2, 1(s7)}:} Carga un único byte en el registro de destino \texttt{s2} desde la dirección de memoria \texttt{s7 + 1 = 101} realizando extensión de signo a 32 bits.
+    \end{enumerate}
+
+    \textbf{Resultados finales en el registro \texttt{s2}:}
+    \begin{itemize}
+        \item \textbf{En un sistema Little-Endian:}
+        El byte en la dirección de memoria \texttt{101} es \texttt{0x87} (binario \texttt{1000 0111}). Dado que la instrucción es \texttt{lb} (carga de byte con signo) y el bit más significativo de este byte es \texttt{1}, el procesador realiza extensión de signo a 32 bits, resultando en:
+        $$\mathbf{s2 = \mathtt{0xFFFFFF87}}$$
+        
+        \item \textbf{En un sistema Big-Endian:}
+        El byte en la dirección de memoria \texttt{101} es \texttt{0xCD} (binario \texttt{1100 1101}). Al igual que en el caso anterior, su bit más significativo es \texttt{1}, por lo que al cargarlo en \texttt{s2} con extensión de signo se obtiene:
+        $$\mathbf{s2 = \mathtt{0xFFFFFFCD}}$$
+    \end{itemize}
     \color{black}
 
 \end{enumerate}
