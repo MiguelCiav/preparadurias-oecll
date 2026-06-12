@@ -1,6 +1,6 @@
 \documentclass[letterpaper,12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-noquoting]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
 \usepackage{graphicx}
@@ -109,7 +109,7 @@ Semestre 01-2026
         \item[\textbf{b)}] \texttt{s3 = 0x00000056} (Cálculo: \texttt{0x54 + 2 = 0x56})
         \item[\textbf{c)}] \texttt{s4 = 0xFFFFFFFF} (Cálculo: \texttt{0xFFFFFFFF - 0 = 0xFFFFFFFF})
         \item[\textbf{d)}] \texttt{s2 = 0xFFFFFA53} (Cálculo: \texttt{-1453} en 12 bits con signo es \texttt{0xA53}. Su extensión de signo es \texttt{0xFFFFFA53}. Operación: \texttt{0xFFFFFFFF \& 0xFFFFFA53 = 0xFFFFFA53})
-        \item[\textbf{e)}] \texttt{s4 = 0x00000540} (Cálculo: Corrimiento a la izquierda por 4 bits: \texttt{0x54 << 4 = 0x540})
+        \item[\textbf{e)}] \texttt{s4 = 0x00000540} (Cálculo: Corrimiento a la izquierda por 4 bits: \texttt{0x54 \textless\textless\ 4 = 0x540})
         \item[\textbf{f)}] \texttt{s1 = 0x00000056} (Cálculo: \texttt{0x16 | 0x54 = 0x56})
         \item[\textbf{g)}] \texttt{s2 = 0x00000000} (Cálculo: Copia el valor de \texttt{s4 = 0x0})
         \item[\textbf{h)}] \texttt{s1 = 0x03393826} (Cálculo: Carga el valor en la dirección \texttt{s4 + 0 = 0x00})
