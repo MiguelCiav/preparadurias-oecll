@@ -192,9 +192,47 @@ Semestre 01-2026
     }
     \end{verbatim}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{verbatim}
+    .bss
+    n:    .space 4      # Reservar 4 bytes en memoria para n
+    fant: .space 4      # Reservar 4 bytes en memoria para fant
+    f:    .space 4      # Reservar 4 bytes en memoria para f
+    i:    .space 4      # Reservar 4 bytes en memoria para i
+
+    .text
+    .globl main
+    main:
+        la t0, n
+        la t1, fant
+        la t2, f
+        la t3, i
+
+        addi s1, zero, 5 # n = 5
+        addi s2, zero, 1 # fant = 1
+        addi s3, zero, 1 # f = 1
+        addi s4, zero, 2 # i = 2
+        
+        sw s1, 0(t0)
+        sw s2, 0(t1)
+        sw s3, 0(t2)
+        sw s4, 0(t3)
+
+    while:
+        blt s1, s4, end  # Si n < i (equivalente a i > n), salir
+        add t4, zero, s3 # faux = f
+        add s3, s3, s2   # f = f + fant
+        sw s3, 0(t2)     # Guardar f en memoria
+        add s2, zero, t4 # fant = faux
+        sw s2, 0(t1)     # Guardar fant en memoria
+        addi s4, s4, 1   # i = i + 1 (Nota: usamos 'addi' para sumar inmediatos)
+        sw s4, 0(t3)     # Guardar i en memoria
+        j while
+
+    end:
+        j .
+    \end{verbatim}
 
     \vspace{0.5cm}
 
