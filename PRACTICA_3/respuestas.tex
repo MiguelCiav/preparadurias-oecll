@@ -244,9 +244,24 @@ Semestre 01-2026
         \item \texttt{sw t1, 0(t4)}
     \end{enumerate}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{lw t0, 0(t2)} $\rightarrow$ Formato Tipo I.
+        \begin{itemize}[noitemsep]
+            \item \texttt{imm[11:0] = 0} $\rightarrow$ \texttt{000000000000}
+            \item \texttt{rs1 = t2 (x7)} $\rightarrow$ \texttt{00111}
+            \item \texttt{funct3 = lw} $\rightarrow$ \texttt{010}
+            \item \texttt{rd = t0 (x5)} $\rightarrow$ \texttt{00101}
+            \item \texttt{opcode = load} $\rightarrow$ \texttt{0000011}
+        \end{itemize}
+        Concatenación (MSB a LSB): \texttt{000000000000\_00111\_010\_00101\_0000011} \\
+        Equivalente hexadecimal: \textbf{\texttt{0x00074503}}
+        
+        \item \texttt{bge t1, t0, 0x2C} $\rightarrow$ \textcolor{red}{\textbf{[Pendiente por resolver]}}
+        
+        \item \texttt{sw t1, 0(t4)} $\rightarrow$ \textcolor{red}{\textbf{[Pendiente por resolver]}}
+    \end{enumerate}
 
     \vspace{0.5cm}
 
