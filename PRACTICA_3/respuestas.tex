@@ -389,9 +389,27 @@ Semestre 01-2026
     \end{verbatim}
     Implementa la función \texttt{strcpy} en lenguaje ensamblador de RISC-V. Utiliza el registro \texttt{t0} para representar la variable local e índice \texttt{i}. Asegúrate de cumplir con las convenciones de llamada de registros y el manejo adecuado de bytes.
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{verbatim}
+    # Argumentos:
+    # a0 = dst[] (dirección base del arreglo de destino)
+    # a1 = src[] (dirección base del arreglo de origen)
+    # t0 = i (índice local)
+
+    strcpy:
+        addi t0, zero, 0     # i = 0
+
+    do:
+        add t2, a1, t0       # t2 = src + i
+        lb  t3, 0(t2)        # t3 = src[i] (cargamos un carácter de 1 byte)
+        add t2, a0, t0       # t2 = dst + i
+        sb  t3, 0(t2)        # dst[i] = src[i] (copiamos el carácter)
+        addi t0, t0, 1       # i++
+        bne  t3, zero, do    # Si t3 != '\0' (0x00), continuar el bucle
+
+        jr   ra              # Retornar al llamante (caller)
+    \end{verbatim}
 
     \vspace{0.5cm}
     \pagebreak
