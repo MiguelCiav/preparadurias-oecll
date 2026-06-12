@@ -441,9 +441,76 @@ Semestre 01-2026
         \item Dibuja el estado de la pila (\textit{stack map}) justo después de que se llama a \texttt{func4}. Indica claramente qué registros están almacenados en qué posiciones de la pila y delimita los marcos de pila de cada función. Proporciona valores de dirección específicos donde sea posible. Asume que \texttt{sp = 0xABC124} justo antes de llamar a \texttt{func1}.
     \end{enumerate}
 
-    \color{red}
-    \textbf{Solución: [Pendiente por resolver]}
-    \color{black}
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{enumerate}[label=\alph*)]
+        \item Cantidad de palabras (\textit{words}) en el marco de pila (\textit{stack frame}) de cada función:
+        \begin{itemize}[noitemsep]
+            \item \textbf{\texttt{func1}: 8 palabras} $\rightarrow$ Salva 7 registros preservados (\texttt{s4-s10}) y el registro de retorno \texttt{ra} (función no hoja).
+            \item \textbf{\texttt{func2}: 7 palabras} $\rightarrow$ Salva 6 registros preservados (\texttt{s0-s5}) y el registro de retorno \texttt{ra} (función no hoja).
+            \item \textbf{\texttt{func3}: 4 palabras} $\rightarrow$ Salva 3 registros preservados (\texttt{s7-s9}) y el registro de retorno \texttt{ra} (función no hoja).
+            \item \textbf{\texttt{func4}: 3 palabras} $\rightarrow$ Salva 3 registros preservados (\texttt{s10-s12}). No necesita salvar \texttt{ra} porque es una función hoja (\textit{leaf function}).
+        \end{itemize}
+        Total acumulado en la pila: \textbf{22 palabras} ($22 \times 4 = 88$ bytes).
+        
+        \item Estado de la pila (\textit{stack map}) justo después de entrar a \texttt{func4} (con pila descendente y direcciones de memoria alineadas a 4 bytes):
+        
+        \begin{table}[H]
+            \centering
+            \small
+            \begin{tabular}{|c|c|c|}
+                \hline
+                \textbf{Dirección de Memoria} & \textbf{Contenido (Registro)} & \textbf{Marco de Pila (Stack Frame)} \\
+                \hline
+                \texttt{0xABC124} & \textit{-- sp inicial --} & \textit{(Función llamante / Caller)} \\
+                \hline
+                \texttt{0xABC120} & \texttt{s4} & \\
+                \cline{1-2}
+                \texttt{0xABC11C} & \texttt{s5} & \\
+                \cline{1-2}
+                \texttt{0xABC118} & \texttt{s6} & \\
+                \cline{1-2}
+                \texttt{0xABC114} & \texttt{s7} & \textbf{Marco de \texttt{func1}} \\
+                \cline{1-2}
+                \texttt{0xABC110} & \texttt{s8} & (8 palabras / 32 bytes) \\
+                \cline{1-2}
+                \texttt{0xABC10C} & \texttt{s9} & \\
+                \cline{1-2}
+                \texttt{0xABC108} & \texttt{s10} & \\
+                \cline{1-2}
+                \texttt{0xABC104} & \texttt{ra} & \\
+                \hline
+                \texttt{0xABC100} & \texttt{s0} & \\
+                \cline{1-2}
+                \texttt{0xABC0FC} & \texttt{s1} & \\
+                \cline{1-2}
+                \texttt{0xABC0F8} & \texttt{s2} & \textbf{Marco de \texttt{func2}} \\
+                \cline{1-2}
+                \texttt{0xABC0F0} & \texttt{s3} & (7 palabras / 28 bytes) \\
+                \cline{1-2}
+                \texttt{0xABC0EC} & \texttt{s4} & \\
+                \cline{1-2}
+                \texttt{0xABC0E8} & \texttt{s5} & \\
+                \cline{1-2}
+                \texttt{0xABC0E4} & \texttt{ra} & \\
+                \hline
+                \texttt{0xABC0E0} & \texttt{s7} & \\
+                \cline{1-2}
+                \texttt{0xABC0DC} & \texttt{s8} & \textbf{Marco de \texttt{func3}} \\
+                \cline{1-2}
+                \texttt{0xABC0D4} & \texttt{s9} & (4 palabras / 16 bytes) \\
+                \cline{1-2}
+                \texttt{0xABC0D0} & \texttt{ra} & \\
+                \hline
+                \texttt{0xABC0CC} & \texttt{s10} & \textbf{Marco de \texttt{func4}} \\
+                \cline{1-2}
+                \texttt{0xABC0C8} & \texttt{s11} & (3 palabras / 12 bytes) \\
+                \cline{1-2}
+                \texttt{0xABC0C4} & \texttt{s12} (apuntado por \texttt{sp}) & \\
+                \hline
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
 
     \vspace{0.5cm}
     \pagebreak
