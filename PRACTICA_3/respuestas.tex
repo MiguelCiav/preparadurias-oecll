@@ -275,7 +275,19 @@ Semestre 01-2026
         \texttt{0000001\_00101\_00110\_101\_01100\_1100011} \\
         Equivalente hexadecimal: \textbf{\texttt{0x02535663}}
         
-        \item \texttt{sw t1, 0(t4)} $\rightarrow$ \textcolor{red}{\textbf{[Pendiente por resolver]}}
+        \item \texttt{sw t1, 0(t4)} $\rightarrow$ Formato Tipo S (Store).
+        \begin{itemize}[noitemsep]
+            \item \texttt{imm[11:5] = 0} $\rightarrow$ \texttt{0000000}
+            \item \texttt{rs2 = t1 (x6)} $\rightarrow$ \texttt{00110}
+            \item \texttt{rs1 = t4 (x29)} $\rightarrow$ \texttt{11101}
+            \item \texttt{funct3 = sw} $\rightarrow$ \texttt{010}
+            \item \texttt{imm[4:0] = 0} $\rightarrow$ \texttt{00000}
+            \item \texttt{opcode = store} $\rightarrow$ \texttt{0100011}
+        \end{itemize}
+        Concatenación (MSB a LSB): \\
+        \texttt{imm[11:5]\_rs2\_rs1\_funct3\_imm[4:0]\_opcode} \\
+        \texttt{0000000\_00110\_11101\_010\_00000\_0100011} \\
+        Equivalente hexadecimal: \textbf{\texttt{0x006EA023}}
     \end{enumerate}
 
     \vspace{0.5cm}
