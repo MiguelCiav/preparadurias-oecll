@@ -1,0 +1,438 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{caption}
+\graphicspath{{img/}}
+
+% Configuración de márgenes
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+\definecolor{solcolor}{rgb}{0.0, 0.4, 0.0} % Verde oscuro para distinguir las respuestas
+
+\begin{document}
+
+%%%%%% ENCABEZADO %%%%%%%
+
+\noindent \textbf{Universidad Central de Venezuela}\\
+\textbf{Facultad de Ciencias}\\
+\textbf{Escuela de Computación}\\
+\textbf{Organización y Estructura del Computador II}\\
+Semestre 01-2026
+
+\vspace{0.3cm}
+\begin{center}
+{\textbf{Respuestas - Práctica 3: Programación en Ensamblador de RISC-V}}
+\end{center}
+\vspace{0.5cm}
+
+%%%%%% CONTENIDO %%%%%%%
+
+\begin{enumerate}
+
+    %%%%% PREGUNTA 1 %%%%%
+    \item Indica el resultado, contenido final de los registros y posiciones de memoria luego de ejecutar las siguientes instrucciones:
+    \vspace{0.3cm}
+    
+    \begin{tabular}{ll@{\hspace{2.5cm}}ll}
+        a) & \texttt{add s1, s1, s2} & g) & \texttt{mv s2, s4} \\
+        b) & \texttt{addi s3, s2, 2} & h) & \texttt{lw s1, 0(s4)} \\
+        c) & \texttt{sub s4, s3, x0} & i) & \texttt{lw s2, 4(s5)} \\
+        d) & \texttt{andi s2, s3, -1453} & j) & \texttt{and s5, s1, s3} \\
+        e) & \texttt{sll s4, s2, s5} & k) & \texttt{sw s3, 0(s5)} \\
+        f) & \texttt{or s1, s1, s2} & l) & \texttt{sw s4, 4(s4)}
+    \end{tabular}
+    
+    \vspace{0.5cm}
+    Los registros y memoria tienen los siguientes contenidos en el momento inicial:
+    \vspace{0.3cm}
+
+    \begin{table}[H]
+        \centering
+        \begin{minipage}[t]{0.45\textwidth}
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                \multicolumn{2}{|c|}{\textbf{Registros}} \\
+                \hline
+                \textbf{s1} & \texttt{0x00000016} \\
+                \hline
+                \textbf{s2} & \texttt{0x00000054} \\
+                \hline
+                \textbf{s3} & \texttt{0xffffffff} \\
+                \hline
+                \textbf{s4} & \texttt{0x00000000} \\
+                \hline
+                \textbf{s5} & \texttt{0x00000004} \\
+                \hline
+            \end{tabular}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                \multicolumn{2}{|c|}{\textbf{Memoria}} \\
+                \hline
+                \textbf{0x00} & \texttt{0x03393826} \\
+                \hline
+                \textbf{0x04} & \texttt{0xea0063af} \\
+                \hline
+                \textbf{0x08} & \texttt{0x17fa8912} \\
+                \hline
+                \textbf{0x0c} & \texttt{0xbc983304} \\
+                \hline
+                \textbf{0x10} & \texttt{0x534b4aaa} \\
+                \hline
+                \textbf{0x14} & \texttt{0x534b4aaa} \\
+                \hline
+            \end{tabular}
+        \end{minipage}
+    \end{table}
+
+    \vspace{0.3cm}
+    \color{solcolor}
+    \textbf{Solución (asumiendo ejecución independiente desde el estado inicial):}
+    \begin{itemize}[noitemsep]
+        \item[\textbf{a)}] \texttt{s1 = 0x0000006A} (Cálculo: \texttt{0x16 + 0x54 = 0x6A})
+        \item[\textbf{b)}] \texttt{s3 = 0x00000056} (Cálculo: \texttt{0x54 + 2 = 0x56})
+        \item[\textbf{c)}] \texttt{s4 = 0xFFFFFFFF} (Cálculo: \texttt{0xFFFFFFFF - 0 = 0xFFFFFFFF})
+        \item[\textbf{d)}] \texttt{s2 = 0xFFFFFA53} (Cálculo: \texttt{-1453} en 12 bits con signo es \texttt{0xA53}. Su extensión de signo es \texttt{0xFFFFFA53}. Operación: \texttt{0xFFFFFFFF \& 0xFFFFFA53 = 0xFFFFFA53})
+        \item[\textbf{e)}] \texttt{s4 = 0x00000540} (Cálculo: Corrimiento a la izquierda por 4 bits: \texttt{0x54 << 4 = 0x540})
+        \item[\textbf{f)}] \texttt{s1 = 0x00000056} (Cálculo: \texttt{0x16 | 0x54 = 0x56})
+        \item[\textbf{g)}] \texttt{s2 = 0x00000000} (Cálculo: Copia el valor de \texttt{s4 = 0x0})
+        \item[\textbf{h)}] \texttt{s1 = 0x03393826} (Cálculo: Carga el valor en la dirección \texttt{s4 + 0 = 0x00})
+        \item[\textbf{i)}] \texttt{s2 = 0x17fa8912} (Cálculo: Carga el valor en la dirección \texttt{s5 + 4 = 0x04 + 4 = 0x08})
+        \item[\textbf{j)}] \texttt{s5 = 0x00000016} (Cálculo: \texttt{0x16 \& 0xFFFFFFFF = 0x16})
+        \item[\textbf{k)}] \texttt{Memoria[0x04] = 0xFFFFFFFF} (Cálculo: Escribe \texttt{s3} en la dirección \texttt{s5 + 0 = 0x04})
+        \item[\textbf{l)}] \texttt{Memoria[0x04] = 0x00000000} (Cálculo: Escribe \texttt{s4} en la dirección \texttt{s4 + 4 = 0x04})
+    \end{itemize}
+    \color{black}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 2 %%%%%
+    \item Escribe un programa en lenguaje ensamblador que implemente el siguiente bloque \texttt{IF-THEN-ELSE}. Usa la sección \texttt{.data} para asignar algún valor inicial a las variables.
+    \begin{verbatim}
+    if (x >= y) {
+        x = x + 2; 
+        y = y + 2;
+    } else {
+        x = x - 2;
+        y = y - 2;
+    }
+    \end{verbatim}
+
+    \color{solcolor}
+    \textbf{Solución:}
+    \begin{verbatim}
+    .data
+    x:  .word 15        # Declaración de variable x inicializada en 15
+    y:  .word 10        # Declaración de variable y inicializada en 10
+
+    .text
+    .globl main
+    main:
+        # Cargar las direcciones de las variables
+        la t0, x        # t0 = dirección de x
+        la t1, y        # t1 = dirección de y
+
+        # Cargar los valores de x e y en registros de trabajo (s1 y s2)
+        lw s1, 0(t0)    # s1 = x
+        lw s2, 0(t1)    # s2 = y
+
+        # Condicional: si x < y, saltar a la rama else
+        blt s1, s2, else
+        
+        # Rama THEN: x = x + 2; y = y + 2
+        addi s1, s1, 2
+        addi s2, s2, 2
+        j end
+        
+    else:
+        # Rama ELSE: x = x - 2; y = y - 2
+        addi s1, s1, -2
+        addi s2, s2, -2
+        
+    end:
+        # Guardar los valores modificados de vuelta en la memoria RAM
+        sw s1, 0(t0)    # x = s1
+        sw s2, 0(t1)    # y = s2
+
+        # Finalizar ejecución (bucle infinito de parada)
+        j .
+    \end{verbatim}
+    \color{black}
+
+    \pagebreak
+
+    %%%%% PREGUNTA 3 %%%%%
+    \item Escribe un programa en lenguaje ensamblador que implemente el siguiente código. Usa la sección \texttt{.bss} para reservar espacio en memoria para las variables.
+    \begin{verbatim}
+    n = 5;
+    fant = 1;
+    f = 1;
+    i = 2;
+    while (i <= n) {
+        faux = f;
+        f = f + fant; 
+        fant = faux; 
+        i = i + 1;
+    }
+    \end{verbatim}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 4 %%%%%
+    \item Cada una de las siguientes instrucciones del repertorio de ensamblador de RISC-V, ¿con qué secuencia de 32 bits se corresponde en código máquina?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{lw t0, 0(t2)}
+        \item \texttt{bge t1, t0, 0x2C}
+        \item \texttt{sw t1, 0(t4)}
+    \end{enumerate}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 5 %%%%%
+    \item Cada una de las siguientes secuencias de 32 bits, ¿con qué instrucciones del repertorio de ensamblador de RISC-V se corresponden?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{0x03528B33}
+        \item \texttt{0x00190913}
+        \item \texttt{0x0000006F}
+    \end{enumerate}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+    \pagebreak
+
+    %%%%% PREGUNTA 6 (Exercise 6.11) %%%%%
+    \item Traduce el siguiente fragmento de código de alto nivel a lenguaje ensamblador de RISC-V. Asume que las direcciones base de \texttt{array1} y \texttt{array2} se almacenan en los registros \texttt{t1} y \texttt{t2}, respectivamente, y que el arreglo \texttt{array2} ya está inicializado. Intenta usar la menor cantidad de instrucciones posible y comenta claramente tu código.
+    \begin{verbatim}
+    int i;
+    int array1[100];
+    int array2[100];
+    ...
+    for (i = 0; i < 100; i = i + 1) {
+        array1[i] = array2[i];
+    }
+    \end{verbatim}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 7 (Exercise 6.16a) %%%%%
+    \item La función de alto nivel \texttt{strcpy} (copia de cadenas) copia la cadena de caracteres \texttt{src} a la cadena de destino \texttt{dst}.
+    \begin{verbatim}
+    void strcpy(char dst[], char src[]) {
+        int i = 0;
+        do {
+            dst[i] = src[i];
+        } while (src[i++]);
+    }
+    \end{verbatim}
+    Implementa la función \texttt{strcpy} en lenguaje ensamblador de RISC-V. Utiliza el registro \texttt{t0} para representar la variable local e índice \texttt{i}. Asegúrate de cumplir con las convenciones de llamada de registros y el manejo adecuado de bytes.
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+    \pagebreak
+
+    %%%%% PREGUNTA 8 (Exercise 6.18) %%%%%
+    \item Considera el siguiente código en ensamblador de RISC-V. Las funciones \texttt{func1}, \texttt{func2} y \texttt{func3} son funciones que no son hojas (\textit{non-leaf functions}), mientras que \texttt{func4} es una función hoja (\textit{leaf function}). No se muestra el código completo de cada función, pero los comentarios indican qué registros se utilizan dentro de cada una. Asume que las funciones no necesitan resguardar registros no preservados en sus respectivas pilas.
+    
+    \begin{verbatim}
+    0x00091000  func1: ...  # func1 usa t2-t3, s4-s10
+    ...
+    0x00091020         jal func2
+    ...
+    0x00091100  func2: ...  # func2 usa a0-a2, s0-s5
+    ...
+    0x0009117C         jal func3
+    ...
+    0x00091400  func3: ...  # func3 usa t3, s7-s9
+    ...
+    0x00091704         jal func4
+    ...
+    0x00093008  func4: ...  # func4 usa s10-s12
+    ...
+    0x00093118         jr ra
+    \end{verbatim}
+    
+    Responde:
+    \begin{enumerate}[label=\alph*)]
+        \item ¿De cuántas palabras (\textit{words}) consta el marco de pila (\textit{stack frame}) de cada una de las cuatro funciones?
+        \item Dibuja el estado de la pila (\textit{stack map}) justo después de que se llama a \texttt{func4}. Indica claramente qué registros están almacenados en qué posiciones de la pila y delimita los marcos de pila de cada función. Proporciona valores de dirección específicos donde sea posible. Asume que \texttt{sp = 0xABC124} justo antes de llamar a \texttt{func1}.
+    \end{enumerate}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+    \pagebreak
+
+    %%%%% PREGUNTA 9 (Exercise 6.19) %%%%%
+    \item Cada número en la serie de Fibonacci es la suma de los dos números anteriores. La siguiente tabla lista los primeros términos de la serie para $fib(n)$:
+    
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \textbf{$n$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & \dots \\
+            \hline
+            \textbf{$fib(n)$} & 1 & 1 & 2 & 3 & 5 & 8 & 13 & 21 & 34 & 55 & 89 & \dots \\
+            \hline
+        \end{tabular}
+    \end{table}
+    
+    Responde:
+    \begin{enumerate}[label=\alph*)]
+        \item Escribe una función \textbf{recursiva} llamada \texttt{fib} en un lenguaje de alto nivel (como C o Python) que devuelva el número de Fibonacci para cualquier valor entero positivo de $n$.
+        \item Traduce tu función recursiva a lenguaje ensamblador de RISC-V. Asegúrate de gestionar la pila de forma apropiada para almacenar el registro de retorno \texttt{ra} y los valores intermedios. Agrega comentarios detallados explicando el propósito de cada instrucción.
+    \end{enumerate}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 10 (Exercise 6.21) %%%%%
+    \item Ben Bitdiddle está intentando computar la función $f(a, b) = 2a + 3b$ para $b \geq 0$. Sin embargo, se excede en el uso de llamadas a funciones y recursión, produciendo el siguiente código de alto nivel para las funciones $f$ y $g$:
+    \begin{verbatim}
+    int f(int a, int b) {
+        int j;
+        j = a;
+        return j + a + g(b);
+    }
+    
+    int g(int x) {
+        int k;
+        k = 3;
+        if (x == 0) return 0;
+        else return k + g(x - 1);
+    }
+    \end{verbatim}
+    
+    Ben traduce ambas funciones a lenguaje ensamblador de RISC-V de la siguiente forma. También escribe una rutina de prueba llamada \texttt{test} que realiza la llamada inicial a $f(5, 3)$:
+    \begin{verbatim}
+    # f: a0 = a, a1 = b, s4 = j;
+    # g: a0 = x, s4 = k
+
+    0x8000 test:  addi a0, zero, 5     # a = 5
+    0x8004       addi a1, zero, 3     # b = 3
+    0x8008       jal  f               # call f(5, 3)
+    0x800C loop:  j    loop            # and loop forever
+    0x8010 f:     addi sp, sp, -16     # make room on stack
+    0x8014       sw   a0, 0xC(sp)     # save a0 (a)
+    0x8018       sw   a1, 0x8(sp)     # save a1 (b)
+    0x801C       sw   ra, 0x4(sp)     # save ra
+    0x8020       sw   s4, 0x0(sp)     # save s4
+    0x8024       addi s4, a0, 0       # j = a
+    0x8028       addi a0, a1, 0       # place b as argument for g()
+    0x802C       jal  g               # call g
+    0x8030       lw   t0, 0xC(sp)     # restore a into t0
+    0x8034       add  a0, a0, t0      # a0 = g(b) + a
+    0x8038       add  a0, a0, s4      # a0 = (g(b) + a) + j
+    0x803C       lw   s4, 0x0(sp)     # restore registers
+    0x8040       lw   ra, 0x4(sp)
+    0x8044       addi sp, sp, 16
+    0x8048       jr   ra              # return
+
+    0x804C g:     addi sp, sp, -8      # make room on stack
+    0x8050       sw   ra, 4(sp)       # save registers
+    0x8054       sw   s4, 0(sp)
+    0x8058       addi s4, zero, 3     # k = 3
+    0x805C       bne  a0, zero, else  # if (x != 0), goto else
+    0x8060       addi a0, zero, 0     # return 0
+    0x8064       j    done            # clean up and return
+    0x8068 else:  addi a0, a0, -1      # decrement x
+    0x806C       jal  g               # call g(x-1)
+    0x8070       add  a0, s4, a0      # return k + g(x-1)
+    0x8074 done:  lw   s4, 0(sp)       # restore registers
+    0x8078       lw   ra, 4(sp)
+    0x807C       addi sp, sp, 8
+    0x8080       jr   ra              # return
+    \end{verbatim}
+    
+    Supón que Ben comete un error y reemplaza la instrucción en la dirección \texttt{0x8014} (\texttt{sw a0, 0xC(sp)}) por un \texttt{nop}. Explica detalladamente qué le ocurrirá al programa y selecciona una de las siguientes opciones justificando tu respuesta:
+    \begin{enumerate}[label=\arabic*)]
+        \item Entrará en un bucle infinito pero no fallará catastróficamente.
+        \item Fallará catastróficamente (\textit{crash}), provocando que la pila crezca o se reduzca fuera del segmento de datos dinámicos, o que el PC salte a una posición inválida fuera del programa.
+        \item Producirá un valor incorrecto en el registro \texttt{a0} cuando el programa regrese a la instrucción \texttt{loop}. Si es así, ¿qué valor produciría?
+        \item Correrá correctamente a pesar de la instrucción eliminada.
+    \end{enumerate}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+    \pagebreak
+
+    %%%%% PREGUNTA 11 (Exercise 6.24) %%%%%
+    \item Considera el siguiente fragmento de código en ensamblador de RISC-V:
+    \begin{verbatim}
+    addi s3, s4, 28
+    sll  t1, t2, t3
+    srli s3, s1, 14
+    sw   s9, 16(t4)
+    \end{verbatim}
+    
+    Responde:
+    \begin{enumerate}[label=\alph*)]
+        \item ¿Cuáles de las instrucciones anteriores utilizan un campo inmediato en su codificación a código máquina de 32 bits?
+        \item ¿Cuál es el formato de instrucción (I, S, B, U o J) para cada una de las cuatro instrucciones?
+        \item Extrae el valor inmediato para cada instrucción que lo posea y exprésalo tanto en formato decimal como en binario de 12 bits (con extensión de signo si aplica).
+    \end{enumerate}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 12 (Exercise 6.52) %%%%%
+    \item Explica detalladamente cómo el siguiente programa en ensamblador de RISC-V puede ser utilizado para determinar si una computadora es Big-Endian o Little-Endian, indicando qué valor final se almacenará en el registro \texttt{s2} en cada caso:
+    \begin{verbatim}
+    addi s7, zero, 100
+    lui  s3, 0xABCD8        # s3 = 0xABCD8000
+    addi s3, s3, 0x765      # s3 = 0xABCD8765
+    sw   s3, 0(s7)
+    lb   s2, 1(s7)
+    \end{verbatim}
+
+    \color{red}
+    \textbf{Solución: [Pendiente por resolver]}
+    \color{black}
+
+\end{enumerate}
+
+\end{document}
