@@ -1,0 +1,123 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amsmath}
+\graphicspath{{img/}}
+
+% Configuración de márgenes
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+\begin{document}
+
+%%%%%% ENCABEZADO %%%%%%%
+
+\noindent \textbf{Universidad Central de Venezuela}\\
+\textbf{Facultad de Ciencias}\\
+\textbf{Escuela de Computación}\\
+\textbf{Organización y Estructura del Computador II}\\
+Semestre 01-2026
+
+\vspace{0.3cm}
+\begin{center}
+{\textbf{Práctica: Microarquitectura}}
+\end{center}
+\vspace{0.5cm}
+
+%%%%%% CONTENIDO %%%%%%%
+
+\begin{enumerate}
+
+    %%%%% PREGUNTA 1 %%%%%
+    \item 
+    \begin{minipage}[t]{0.41\linewidth}
+        Se desea rediseñar una de las unidades del procesador RISC-V de ciclo único para que tenga la mitad del retraso. Usando los retrasos de la tabla a la derecha, responda lo siguiente:
+        \begin{enumerate}[label=\alph*)]
+            \item ¿En qué unidad debería trabajar para obtener la mayor aceleración del procesador general?
+            \item ¿Cuál sería el tiempo de ciclo de la máquina mejorada? Explique.
+        \end{enumerate}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.57\linewidth}
+        \centering
+        \small
+        \setlength{\tabcolsep}{4pt}
+        \begin{tabular}{|l|c|r|}
+            \hline
+            \textbf{Element} & \textbf{Parameter} & \textbf{Delay (ps)} \\
+            \hline
+            Register clk-to-Q & $t_{pcq}$ & 40 \\
+            Register setup & $t_{setup}$ & 50 \\
+            Multiplexer & $t_{mux}$ & 30 \\
+            AND-OR gate & $t_{\text{AND-OR}}$ & 20 \\
+            ALU & $t_{\text{ALU}}$ & 120 \\
+            Decoder (control unit) & $t_{\text{dec}}$ & 25 \\
+            Extend unit & $t_{\text{ext}}$ & 35 \\
+            Memory read & $t_{\text{mem}}$ & 200 \\
+            Register file read & $t_{\text{RFread}}$ & 100 \\
+            Register file setup & $t_{\text{RFsetup}}$ & 60 \\
+            \hline
+        \end{tabular}
+    \end{minipage}
+
+    \vspace{0.6cm}
+
+    %%%%% PREGUNTA 2 %%%%%
+    \item Repita el ejercicio 1b para un procesador RISC-V multiciclo.
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 3 %%%%%
+    \item ¿Cuántos ciclos se requieren para ejecutar el siguiente programa en el procesador multiciclo RISC-V? ¿Cuál es el CPI de este programa?
+
+    \begin{verbatim}
+          addi s0, zero, 5      # result = 5
+    L1:
+          bge  zero, s0, Done   # if result <= 0, exit loop
+          addi s0, s0, -1       # result = result - 1
+          j    L1
+    Done:
+    \end{verbatim}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 4 %%%%%
+    \item El procesador RISC-V segmentado (\textit{pipelined RISC-V}) ejecuta el siguiente fragmento de código. ¿Qué registros se escriben y cuáles se leen en el quinto ciclo? Recuerde que el procesador RISC-V segmentado tiene una unidad de riesgo. Puede asumir un sistema de memoria que devuelve el resultado dentro de un ciclo.
+
+    \begin{verbatim}
+    xor  s1, s2, s3     # s1 = s2 ^ s3
+    addi s0, s3, -4     # s0 = s3 - 4
+    lw   s3, 16(s7)     # s3 = memory[s7+16]
+    sw   s4, 20(s1)     # memory[s1+20] = s4
+    or   t2, s0, s1     # t2 = s0 | s1
+    \end{verbatim}
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 5 %%%%%
+    \item Usando un diagrama de pipeline similar al visto en clase, muestre el adelanto y las paradas necesarias para ejecutar las instrucciones del ejercicio 4 en el procesador RISC-V segmentado.
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 6 %%%%%
+    \item ¿Cuántos ciclos se requieren para que el procesador RISC-V segmentado emita todas las instrucciones para el programa del ejercicio 4? ¿Cuál es el CPI del procesador en este programa?
+
+    \vspace{0.5cm}
+
+    %%%%% PREGUNTA 7 %%%%%
+    \item Se desea que ud rediseñe una de las unidades del procesador RISC-V segmentado para que sea mucho más rápido. Usando los retrasos de la tabla del ejercicio 1, responda ¿en qué unidad debería trabajar para obtener la mayor aceleración del procesador general? ¿Cuánto más rápido podrá ser? ¿Cuál es el tiempo de ciclo del procesador mejorado? Explique tus respuestas.
+
+\end{enumerate}
+
+\end{document}

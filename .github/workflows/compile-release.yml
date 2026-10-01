@@ -23,6 +23,7 @@ jobs:
 
       - name: Compile LaTeX documents
         run: |
+          ROOT_DIR=$(pwd)
           # Find all main.tex files recursively, excluding git directories
           find . -name "main.tex" -not -path "*/.git/*" | while read -r tex_file; do
             dir=$(dirname "$tex_file")
@@ -31,22 +32,20 @@ jobs:
             echo "Compiling $prac_name ($tex_file)"
             echo "=========================================="
             
-            # Move to the practice directory to compile relative to its images
-            cd "$dir"
-            pdflatex -interaction=nonstopmode main.tex
-            pdflatex -interaction=nonstopmode main.tex # Double compile to build reference tables correctly
-            
-            # If compile succeeded, rename and copy to output directory
-            if [ -f main.pdf ]; then
-              mv main.pdf "../../output_pdfs/${prac_name}.pdf"
-              echo "Successfully compiled and saved to output_pdfs/${prac_name}.pdf"
-            else
-              echo "Error: PDF was not generated for $prac_name"
-              exit 1
-            fi
-            
-            # Return to repository root
-            cd ../..
+            # Compile inside subshell so working directory resets cleanly
+            (
+              cd "$dir"
+              pdflatex -interaction=nonstopmode main.tex
+              pdflatex -interaction=nonstopmode main.tex # Double compile to build reference tables correctly
+              
+              if [ -f main.pdf ]; then
+                mv main.pdf "$ROOT_DIR/output_pdfs/${prac_name}.pdf"
+                echo "Successfully compiled and saved to output_pdfs/${prac_name}.pdf"
+              else
+                echo "Error: PDF was not generated for $prac_name"
+                exit 1
+              fi
+            )
           done
 
       - name: Create GitHub Release and Upload Assets
