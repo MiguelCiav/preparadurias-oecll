@@ -45,6 +45,20 @@ jobs:
                 echo "Error: PDF was not generated for $prac_name"
                 exit 1
               fi
+
+              # Compile respuestas.tex if present
+              if [ -f respuestas.tex ]; then
+                echo "Compiling respuestas.tex for $prac_name"
+                pdflatex -interaction=nonstopmode respuestas.tex
+                pdflatex -interaction=nonstopmode respuestas.tex
+                if [ -f respuestas.pdf ]; then
+                  mv respuestas.pdf "$ROOT_DIR/output_pdfs/${prac_name}_Respuestas.pdf"
+                  echo "Successfully compiled and saved to output_pdfs/${prac_name}_Respuestas.pdf"
+                else
+                  echo "Error: PDF was not generated for respuestas.tex in $prac_name"
+                  exit 1
+                fi
+              fi
             )
           done
 
