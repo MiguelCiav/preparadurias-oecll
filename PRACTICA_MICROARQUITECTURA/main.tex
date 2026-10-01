@@ -41,18 +41,10 @@ Semestre 01-2026
 \begin{enumerate}
 
     %%%%% PREGUNTA 1 %%%%%
-    \item 
-    \begin{minipage}[t]{0.41\linewidth}
-        Se desea rediseñar una de las unidades del procesador RISC-V de ciclo único para que tenga la mitad del retraso. Usando los retrasos de la tabla a la derecha, responda lo siguiente:
-        \begin{enumerate}[label=\alph*)]
-            \item ¿En qué unidad debería trabajar para obtener la mayor aceleración del procesador general?
-            \item ¿Cuál sería el tiempo de ciclo de la máquina mejorada? Explique.
-        \end{enumerate}
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.57\linewidth}
-        \centering
+    \item Se desea rediseñar una de las unidades del procesador RISC-V de ciclo único para que tenga la mitad del retraso. Usando los retrasos de la siguiente tabla, responda lo siguiente:
+
+    \begin{center}
         \small
-        \setlength{\tabcolsep}{4pt}
         \begin{tabular}{|l|c|r|}
             \hline
             \textbf{Element} & \textbf{Parameter} & \textbf{Delay (ps)} \\
@@ -69,7 +61,12 @@ Semestre 01-2026
             Register file setup & $t_{\text{RFsetup}}$ & 60 \\
             \hline
         \end{tabular}
-    \end{minipage}
+    \end{center}
+
+    \begin{enumerate}[label=\alph*)]
+        \item ¿En qué unidad debería trabajar para obtener la mayor aceleración del procesador general?
+        \item ¿Cuál sería el tiempo de ciclo de la máquina mejorada? Explique.
+    \end{enumerate}
 
     \vspace{0.6cm}
 
